@@ -1,6 +1,5 @@
 package by.test.controller;
 
-
 import by.test.service.WalletService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,29 +26,26 @@ class WalletControllerTest {
     @MockBean
     WalletService walletService;
 
-
     @Test
     public void testGetWalletBalanceNotFound() throws Exception {
-//        тут пееремен использовать UUID.randomUUID())
-        // UUID number = UUID.random и передать во все значения
-        when(walletService.getBalance(1)).thenThrow(new NoSuchElementException("wallet not found"));
+        UUID uuid = UUID.randomUUID();
+        when(walletService.getBalance(uuid)).thenThrow(new NoSuchElementException("wallet not found"));
 
-        mvc.perform(get("/api/v1/wallet/{walletId}","1"))
+        mvc.perform(get("/api/v1/wallet/{walletId}", uuid))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Error: Wallet with ID 1 does not exist."));
+                .andExpect(content().string("Error: Wallet with ID " + uuid + " does not exist."));
     }
 
     @Test
     public void testGetWalletBalanceSuccess() throws Exception {
-        when(walletService.getBalance(1)).thenReturn(BigDecimal.valueOf(150));
-
-        mvc.perform(get("/api/v1/wallet/1"))
+        UUID uuid = UUID.randomUUID();
+        when(walletService.getBalance(uuid)).thenReturn(BigDecimal.valueOf(150));
+        mvc.perform(get("/api/v1/wallet/" + uuid))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Your wallet balance: 150"));
 
-        verify(walletService, times(1)).getBalance(1);
+        verify(walletService, times(1)).getBalance(uuid);
     }
-
 }
 
 

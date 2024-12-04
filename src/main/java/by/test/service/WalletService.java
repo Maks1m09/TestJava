@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class WalletService {
     private final WalletRepository walletRepository;
 
     @Transactional
-    public void modifyWallet(Integer id, OperationType type, BigDecimal amount) {
+    public void modifyWallet(UUID id, OperationType type, BigDecimal amount) {
         Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new NoSuchElementException("wallet not found"));
         if (type == OperationType.DEPOSIT) {
             wallet.setAmount(wallet.getAmount().add(amount));
@@ -34,7 +35,7 @@ public class WalletService {
         walletRepository.save(wallet);
     }
 
-    public BigDecimal getBalance(Integer walletId) {
+    public BigDecimal getBalance(UUID walletId) {
         return walletRepository.findById(walletId)
                 .map(Wallet::getAmount)
                 .orElseThrow(() -> new ExpressionException("wallet not found"));

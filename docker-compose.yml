@@ -9,8 +9,7 @@ services:
       POSTGRES_DB: wallet
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+
 
   app:
     build:
@@ -24,5 +23,3 @@ services:
       DATASOURCE_USER: admin
       DATASOURCE_PASSWORD: admin
 
-volumes:
-  postgres_data:

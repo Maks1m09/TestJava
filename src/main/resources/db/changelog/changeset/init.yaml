@@ -1,23 +1,18 @@
 databaseChangeLog:
   - changeSet:
-      id:  create-author
+      id: create-author
       author: Maxim
       changes:
         - createTable:
-            tableName: wallets1
+            tableName: wallets
             columns:
               - column:
                   name: id
-                  type: Integer
-                  autoIncrement: true
+                  type: UUID
                   constraints:
                     primaryKey: true
                     nullable: false
-              - column:
-                  name: type
-                  type: varchar (100)
-                  constraints:
-                    nullable: false
+                    defaultValueComputed: gen_random_uuid()
               - column:
                   name: amount
                   type: numeric

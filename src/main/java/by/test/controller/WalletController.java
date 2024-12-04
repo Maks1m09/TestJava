@@ -1,6 +1,6 @@
 package by.test.controller;
 
-import by.test.entity.Wallet;
+import by.test.entity.TransactionRequest;
 import by.test.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,9 +20,9 @@ public class WalletController {
     private final WalletService walletService;
 
     @PostMapping
-    public ResponseEntity<String> processTransaction( @RequestBody Wallet request) {
+    public ResponseEntity<String> processTransaction(@RequestBody TransactionRequest transactionRequest) {
         try {
-            walletService.modifyWallet(request.getId(), request.getType(), request.getAmount());
+            walletService.modifyWallet(transactionRequest.getWalletId(), transactionRequest.getOperationType(), transactionRequest.getAmount());
             return ResponseEntity.ok("Transaction processed successfully");
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(404).body("Error: Wallet not found. " + e.getMessage());
@@ -41,13 +41,9 @@ public class WalletController {
 
 
     @GetMapping("/{walletId}")
-    public ResponseEntity<String> getWalletBalance(@PathVariable("walletId") String walletId) {
+    public ResponseEntity<String> getWalletBalance(@PathVariable("walletId") UUID walletId) {
         try {
-            if (!walletId.matches("\\d+")) {
-                return ResponseEntity.badRequest().body("Error: Wallet ID must be a valid integer.");
-            }
-            Integer id = Integer.valueOf(walletId);
-            BigDecimal balance = walletService.getBalance(id);
+            BigDecimal balance = walletService.getBalance(walletId);
             return ResponseEntity.ok("Your wallet balance: " + balance);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Wallet with ID " + walletId + " does not exist.");

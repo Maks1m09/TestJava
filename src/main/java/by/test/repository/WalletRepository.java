@@ -8,7 +8,6 @@ import java.util.UUID;
 
 
 @Repository
-public interface WalletRepository extends JpaRepository<Wallet, Integer> {
-// @Lock
-//
+public interface WalletRepository extends JpaRepository<Wallet, UUID> {
+
 }
