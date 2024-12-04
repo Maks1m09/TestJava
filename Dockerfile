@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-slim-bullseye
+FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY /out/artifacts/Test_jar/Test.jar /app/testTask.jar
-ENTRYPOINT ["java", "-jar", "testTask.jar"]
+COPY /target/TestForJavaCode-spring-boot.jar service.jar
+ENTRYPOINT ["java", "-jar", "service.jar"]
