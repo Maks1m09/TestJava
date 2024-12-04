@@ -1,20 +1,16 @@
-package by.test.testsForService;
+package by.test.controller;
 
 
-import by.test.controller.WalletController;
 import by.test.service.WalletService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(WalletController.class)
-class TestWalletController {
+class WalletControllerTest {
 
     @Autowired
     MockMvc mvc;
@@ -34,9 +30,11 @@ class TestWalletController {
 
     @Test
     public void testGetWalletBalanceNotFound() throws Exception {
+//        тут пееремен использовать UUID.randomUUID())
+        // UUID number = UUID.random и передать во все значения
         when(walletService.getBalance(1)).thenThrow(new NoSuchElementException("wallet not found"));
 
-        mvc.perform(get("/api/v1/wallet/1"))
+        mvc.perform(get("/api/v1/wallet/{walletId}","1"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Error: Wallet with ID 1 does not exist."));
     }

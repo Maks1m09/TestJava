@@ -1,11 +1,13 @@
 package by.test.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.*;
+
 
 import java.math.BigDecimal;
 
-import javax.persistence.*;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,11 +15,11 @@ import javax.persistence.*;
 @Setter
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table (name = "wallets1")
+@Table(name = "wallets1")
 public class Wallet {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
 
 //    @Column (name = "id")
     private Integer id;

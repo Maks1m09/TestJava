@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 
@@ -20,7 +20,7 @@ public class WalletController {
     private final WalletService walletService;
 
     @PostMapping
-    public ResponseEntity<String> processTransaction(@Valid @RequestBody Wallet request) {
+    public ResponseEntity<String> processTransaction( @RequestBody Wallet request) {
         try {
             walletService.modifyWallet(request.getId(), request.getType(), request.getAmount());
             return ResponseEntity.ok("Transaction processed successfully");
@@ -41,7 +41,7 @@ public class WalletController {
 
 
     @GetMapping("/{walletId}")
-    public ResponseEntity<String> getWalletBalance(@PathVariable String walletId) {
+    public ResponseEntity<String> getWalletBalance(@PathVariable("walletId") String walletId) {
         try {
             if (!walletId.matches("\\d+")) {
                 return ResponseEntity.badRequest().body("Error: Wallet ID must be a valid integer.");

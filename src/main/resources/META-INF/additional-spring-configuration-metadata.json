@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "hibernate.jdbc.lob.non_contextual_creation",
-      "type": "java.lang.String",
-      "description": "Description for hibernate.jdbc.lob.non_contextual_creation."
-  }
-] }
